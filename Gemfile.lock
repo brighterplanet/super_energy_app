@@ -61,6 +61,7 @@ GEM
       oauth
       omniauth (~> 1.0)
     orm_adapter (0.0.7)
+    nokogiri (1.5.2)
     pg (0.13.2)
     polyglot (0.3.3)
     rack (1.4.1)
@@ -118,6 +119,7 @@ DEPENDENCIES
   jquery-rails
   omniauth
   omniauth-oauth
+  nokogiri
   pg
   rails (= 3.2.3)
   sass-rails (~> 3.2.3)

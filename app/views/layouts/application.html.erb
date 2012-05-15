@@ -4,7 +4,7 @@
   <title>SuperEnergyApp</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Fredericka+the+Great|Judson:400,400italic' %>
-  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "application", 'https://www.google.com/jsapi' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -15,5 +15,6 @@
   <article>
 <%= yield %>
   </article>
+<%= yield :bottom %>
 </body>
 </html>
