@@ -3,12 +3,17 @@
 <head>
   <title>SuperEnergyApp</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Fredericka+the+Great|Judson:400,400italic' %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+  <header>
+    <h1>SuperEnergyApp</h1>
+    <h2>Generate awesome graphs of your energy data</h2>
+  </header>
+  <article>
 <%= yield %>
-
+  </article>
 </body>
 </html>

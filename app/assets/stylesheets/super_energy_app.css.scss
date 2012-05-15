@@ -1,0 +1,38 @@
+body {
+  font-family: 'Judson', serif;
+}
+
+header {
+  text-align: center;
+  h1 {
+    font-family: 'Fredericka the Great', cursive;
+    margin-bottom: 0;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+article {
+  border: 1px solid black;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  padding: 20px;
+  width: 600px;
+  margin: 0 auto;
+}
+
+article p {
+  a {
+    background: silver;
+    display: block;
+    width: 200px;
+    padding: 10px;
+    border: 2px outset gray;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+  }
+}
