@@ -30,4 +30,8 @@ class User < ActiveRecord::Base
     readings.pop
     readings = (1..readings.length).zip readings
   end
+
+  def self.find_for_sparkwire_oauth(access_token, signed_in_resource=nil)
+    self.create!(:email => Devise.friendly_token[0,20] + '@xample.com', :password => Devise.friendly_token[0,20]) 
+  end
 end

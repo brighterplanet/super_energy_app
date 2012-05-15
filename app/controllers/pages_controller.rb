@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter :authenticate_user!, :only => :dashboard
+  #before_filter :authenticate_user!, :only => :dashboard
 
   def home; end
 
