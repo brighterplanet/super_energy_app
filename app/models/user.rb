@@ -10,7 +10,6 @@ class User < ActiveRecord::Base
 
   def self.find_or_create_via_sparkwire_oauth(auth_hash)
     creds = auth_hash['credentials']
-    puts "got creds: #{creds.inspect}"
     unless user = User.find_by_token(creds['token'])
       user = create! :email => auth_hash['info']['email'],
         :token => creds['token'], :secret => creds['secret']
