@@ -2,36 +2,32 @@ require 'oauth'
 
 class User < ActiveRecord::Base
   has_one :download
+  validates_presence_of :token, :secret
 
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable
+  devise :token_authenticatable, :trackable, :omniauthable
 
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
-  # attr_accessible :title, :body
+  attr_accessible :email, :token, :secret
 
-  def fetch_data
-    client = OAuth::Consumer.new('VQsuZ8FPlbhEtVqvsKK1xszAR9IUg5PIVb5CLlpU', 'x3EbQpa19fEEtrWoOGQvGTknyyvJYMRwyDVrNDzM', {
-      :site => 'http://super-energy-app.herokuapp.com',
-      :scheme => :query_string,
-      :http_method => :post
-    })
-    access_token = OAuth::AccessToken.from_hash client, {
-      :oauth_token => current_user.token, :oauth_token_secret => current_user.secret
-    }
-
-    doc = Nokogiri::XML(open(Rails.root.join 'doc/sample_data.xml'))
-    doc.remove_namespaces!
-    readings = doc.xpath('//value').map { |v| v.children.first.to_s }.map(&:to_i)
-    readings.pop
-    readings = (1..readings.length).zip readings
+  def self.find_or_create_via_sparkwire_oauth(auth_hash)
+    creds = auth_hash['credentials']
+    puts "got creds: #{creds.inspect}"
+    unless user = User.find_by_token(creds['token'])
+      user = create! :email => auth_hash['info']['email'],
+        :token => creds['token'], :secret => creds['secret']
+    end
+    user
   end
 
-  def self.find_for_sparkwire_oauth(access_token, signed_in_resource=nil)
-    self.create!(:email => Devise.friendly_token[0,20] + '@xample.com', :password => Devise.friendly_token[0,20]) 
+  def latest_readings
+    dl = Download.update(self, token, secret)
+    doc = Nokogiri::XML dl.data
+    doc.remove_namespaces!
+    readings = doc.xpath('//IntervalReading')
+    readings.inject([['Date','Reading']]) do |ary, r|
+      ary << [
+        Time.at(r.search('start').first.content.to_i).strftime('%m-%d-%Y %H:%M:%S'),
+        r.search('value').first.content.to_i
+      ]
+    end
   end
 end

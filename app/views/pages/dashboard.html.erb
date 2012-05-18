@@ -7,7 +7,7 @@ google.setOnLoadCallback(drawChart);
 function drawChart() {
 
   // Create the data table.
-  var data = google.visualization.arrayToDataTable(<%= @readings.to_json %>);
+  var data = google.visualization.arrayToDataTable(<%= @readings.to_json.html_safe %>);
   // var data = google.visualization.arrayToDataTable([1,2,3]);
 
   // Set chart options

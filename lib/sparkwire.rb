@@ -1,28 +1,18 @@
-require 'omniauth-oauth'
+require 'oauth'
 
-module OmniAuth
-  module Strategies
-    class Sparkwire < OmniAuth::Strategies::OAuth
-      option :name, 'sparkwire'
+module Sparkwire
+  class FetchFailed < StandardError; end
 
-      # This is where you pass the options you would pass when
-      # initializing your consumer from the OAuth gem.
-      option :client_options, { :site => 'http://sparkwire.herokuapp.com' }
-
-      # These are called after authentication has succeeded. If
-      # possible, you should try to set the UID without making
-      # additional calls (if the user id is returned with the token
-      # or as a URI parameter). This may not be possible with all
-      # providers.
-      uid { request.params['user_id'] }
-
-      info do
-        { }
-      end
-
-      extra do
-        { }
-      end
-    end
+  def self.fetch(token, secret)
+    consumer = OAuth::Consumer.new ENV['SPARKWIRE_TOKEN'], ENV['SPARKWIRE_SECRET'], {
+      :site => 'http://sparkwire.io',
+      :scheme => :query_string
+    }
+    access_token = OAuth::AccessToken.from_hash consumer, {
+      :oauth_token => token, :oauth_token_secret => secret
+    }
+    response = access_token.get '/electric_utility.xml'
+    raise FetchFailed.new(response.code + ': ' + response.body) unless response.code.to_i < 300
+    response.body
   end
 end
