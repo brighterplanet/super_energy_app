@@ -1,12 +1,16 @@
 <p>
 <h3>Instructions</h3>
+<ul>
+  <li>If you already have a <a href="http://sparkwire.io">sparkwire.io</a> account and have activated your utility, click the login link below</li>
+  <li>If you don't have sparkwire account:</li>
+  <ol>
+    <li>Go to <a href="http://sparkwire.io">sparkwire.io</a> and enter your zip code</li>
+    <li>Activate your PG&amp;E account, entering your utility's login information</li>
+    <li>Come back here and click the log-in link below</li>
+    <li>Once you've completed the OAuth signup, your utility data will be downloaded and presented on a chart</li>
+  </ol>
+</ul>
 <strong>Note:</strong> Sparkwire presently only downloads data for PG&amp;E customers.
-<ol>
-  <li>Go to <a href="http://sparkwire.io">sparkwire.io</a> and enter your zip code</li>
-  <li>Activate your PG&amp;E account, entering your utility's login information</li>
-  <li>Come back here and click the log-in link below</li>
-  <li>Once you've completed the OAuth signup, your utility data will be downloaded and presented on a chart</li>
-</ol>
 </p>
 <p><%= link_to 'Log in with Sparkwire', user_omniauth_authorize_path(:sparkwire) %></p>
 
